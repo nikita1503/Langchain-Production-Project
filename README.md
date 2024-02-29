@@ -23,7 +23,7 @@ To get the project up and running, make sure Docker is installed on your system.
 Then, run the following command:
 
 ```bash
-docker-compose up
+docker compose up --build
 ```
 
 This command starts all services using the `docker-compose.yml` file. It downloads the necessary Docker images, creates associated containers, and gets them running together.
