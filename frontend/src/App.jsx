@@ -1,43 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { FaSpinner } from "react-icons/fa";
+import AppContext from "./ context/AppContext";
+import { fetchConversation } from "./utils/contactBackend";
+import { deleteConversationId, getConversationId } from "./utils/coversationId";
 
 const App = () => {
-  const [conversation, setConversation] = useState({ conversation: [] });
-  const [userMessage, setUserMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const {conversation, setConversation} = useContext(AppContext);
+  const {userMessage, setUserMessage} = useContext(AppContext);
+  const {isLoading, setIsLoading} = useContext(AppContext);
 
   useEffect(() => {
-    const fetchConversation = async () => {
-      const conversationId = localStorage.getItem("conversationId");
-      if (conversationId) {
-        const response = await fetch(
-          `http://localhost:5000/service2/${conversationId}`
-        );
-        const data = await response.json();
-        if (!data.error) {
-          setConversation(data);
-        }
-      }
-    };
-
     fetchConversation();
   }, []);
 
-  const generateConversationId = () =>
-    "_" + Math.random().toString(36).slice(2, 11);
 
   const handleInputChange = (event) => {
     setUserMessage(event.target.value);
   };
 
   const handleNewSession = () => {
-    localStorage.removeItem("conversationId");
+    deleteConversationId();
     setConversation({ conversation: [] });
   };
 
   const handleSubmit = async () => {
     setIsLoading(true);
-    let conversationId = localStorage.getItem("conversationId");
+    let conversationId = getConversationId();
     if (!conversationId) {
       conversationId = generateConversationId();
       localStorage.setItem("conversationId", conversationId);
