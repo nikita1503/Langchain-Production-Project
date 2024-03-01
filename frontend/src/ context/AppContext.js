@@ -1,6 +1,5 @@
 import { createContext } from 'react';
-import { AppContextType } from './useAppContextValue';
 
-const AppContext = createContext<AppContextType|undefined>(undefined);
+const AppContext = createContext(undefined);
 
 export default AppContext;

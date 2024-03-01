@@ -8,3 +8,15 @@ export const deleteConversationId = () =>
 
 export const getConversationId = () => 
     localStorage.getItem(CONVERSATION_ID_LOCAL_STORAGE);
+
+export const saveConversationId = (conversaion_id) => 
+    localStorage.setItem(CONVERSATION_ID_LOCAL_STORAGE, conversaion_id);
+
+export const getOrCreateAndSaveConversationId = () => {
+    let conversationId = getConversationId();
+    if (!conversationId) {
+      conversationId = generateConversationId();
+      saveConversationId(conversationId)
+    }
+    return conversationId;
+}
